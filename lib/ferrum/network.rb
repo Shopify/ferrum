@@ -391,6 +391,7 @@ module Ferrum
 
         if exchange
           response = Network::Response.new(@page, params)
+          response.loaded = true
           exchange.response = response
         end
       end
