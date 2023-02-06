@@ -368,17 +368,15 @@ module Ferrum
 
         exchange.request = request
 
-        if exchange.request.type?(:document)
+        if exchange.navigation_request?(@page.main_frame.id)
+          @exchange = exchange
           mark_pending_exchanges_as_unknown(request)
         end
-
-        @exchange = exchange if exchange.navigation_request?(@page.main_frame.id)
       end
     end
 
-    # When we get a new document request we mark all pending exchanges as
-    # unknown since we won't be able to resolve them given that we are
-    # changing contexts.
+    # When we get a navigation request we mark all pending exchanges as
+    # unknown since they are not relevant to the current navigation.
     def mark_pending_exchanges_as_unknown(request)
       @traffic[..-2].each do |exchange|
         exchange.unknown = true if exchange.pending?
@@ -391,7 +389,6 @@ module Ferrum
 
         if exchange
           response = Network::Response.new(@page, params)
-          response.loaded = true
           exchange.response = response
         end
       end
