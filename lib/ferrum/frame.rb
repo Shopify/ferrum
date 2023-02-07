@@ -49,6 +49,7 @@ module Ferrum
     def state=(value)
       raise ArgumentError unless STATE_VALUES.include?(value)
 
+      puts "State: #{value}"
       @state = value
     end
 

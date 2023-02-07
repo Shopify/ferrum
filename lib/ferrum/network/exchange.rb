@@ -29,7 +29,7 @@ module Ferrum
       attr_accessor :error
 
       # Determines if the network exchange is unknown due to
-      # a redirect or new document loaded.
+      # a lost of its context
       #
       # @return Boolean
       attr_accessor :unknown
@@ -85,7 +85,7 @@ module Ferrum
       # @return [Boolean]
       #
       def finished?
-        blocked? || response&.loaded? || !error.nil?
+        blocked? || response&.loaded? || !error.nil? || unknown
       end
 
       #
@@ -94,7 +94,7 @@ module Ferrum
       # @return [Boolean]
       #
       def pending?
-        !finished? && !unknown
+        !finished?
       end
 
       #
