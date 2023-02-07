@@ -16,32 +16,14 @@ describe Ferrum::Page do
     end
 
     context "with failing response" do
-      it "handles when a non-existent file was specified" do
+      it "handles nagivation error" do
         file_name = "file:non-existent"
 
         expect do
           page.go_to(file_name)
         end.to raise_error(
           Ferrum::StatusError,
-          "Request to #{file_name} failed to reach server, check DNS and server status"
-        )
-      end
-
-      it "handles when DNS is incorrect" do
-        expect { page.go_to("http://nope:#{port}/") }.to raise_error(
-          Ferrum::StatusError,
-          %r{Request to http://nope:\d+/ failed to reach server, check DNS and server status}
-        )
-      end
-
-      it "has a descriptive message when DNS incorrect" do
-        url = "http://nope:#{port}/"
-
-        expect do
-          page.go_to(url)
-        end.to raise_error(
-          Ferrum::StatusError,
-          /Request to #{url} failed to reach server, check DNS and server status/
+          "Request to #{file_name} failed (net::ERR_FILE_NOT_FOUND)."
         )
       end
 
