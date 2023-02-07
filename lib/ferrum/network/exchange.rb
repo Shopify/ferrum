@@ -28,7 +28,6 @@ module Ferrum
       # @return [Error, nil]
       attr_accessor :error
 
-      #
       # Initializes the network exchange.
       #
       # @param [Page] page

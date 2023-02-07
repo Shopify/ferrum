@@ -74,11 +74,11 @@ module Ferrum
     end
 
     def total_connections
-      @traffic.size
+      exchange_connections.count
     end
 
     def finished_connections
-      @traffic.count(&:finished?)
+      exchange_connections.count(&:finished?)
     end
 
     def pending_connections
@@ -362,6 +362,7 @@ module Ferrum
         if params["redirectResponse"]
           previous_exchange = select(request.id)[-2]
           response = Network::Response.new(@page, params)
+          response.loaded = true
           previous_exchange.response = response
         end
 
@@ -465,6 +466,17 @@ module Ferrum
 
     def whitelist?
       Array(@whitelist).any?
+    end
+
+    def exchange_connections
+      @traffic.select { |exchange| exchange_connection?(exchange) }
+    end
+
+    def exchange_connection?(exchange)
+      return false unless @page.frames.any? { |f| f.id == exchange.request&.frame_id }
+
+      return false unless exchange.request&.frame_id == @exchange.request&.frame_id
+      return exchange.request&.loader_id == @exchange.request&.loader_id
     end
   end
 end
