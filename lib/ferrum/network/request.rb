@@ -69,6 +69,15 @@ module Ferrum
       end
 
       #
+      # The loader ID of the request.
+      #
+      # @return [String]
+      #
+      def loader_id
+        @params["loaderId"]
+      end
+
+      #
       # The URL for the request.
       #
       # @return [String]
