@@ -385,7 +385,7 @@ module Ferrum
 
     def subscribe_loading_finished
       @page.on("Network.loadingFinished") do |params|
-        response = select(params["requestId"]).last&.reponse
+        response = select(params["requestId"]).last&.response
 
         if response
           response.loaded = true
