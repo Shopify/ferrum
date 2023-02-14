@@ -72,7 +72,7 @@ module Ferrum
       end
 
       #
-      # Determines if the request was blocked, a response was returned, or if an
+      # Determines if the request was blocked, a response was returned, an
       # error occurred.
       #
       # @return [Boolean]
