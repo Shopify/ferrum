@@ -141,6 +141,7 @@ module Ferrum
         while (now = Utils::ElapsedTime.monotonic_time) < max_time
           begin
             output += read_io.read_nonblock(512)
+            puts output
           rescue IO::WaitReadable
             read_io.wait_readable(max_time - now)
           else
